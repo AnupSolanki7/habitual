@@ -21,11 +21,11 @@ import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard",     label: "Dashboard",     icon: LayoutDashboard },
-  { href: "/habits",        label: "Habits",        icon: CheckSquare },
-  { href: "/analytics",     label: "Analytics",     icon: BarChart3 },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/habits", label: "Habits", icon: CheckSquare },
+  { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/notifications", label: "Notifications", icon: Bell },
-  { href: "/settings",      label: "Settings",      icon: Settings },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 interface SidebarProps {
@@ -35,7 +35,9 @@ interface SidebarProps {
 
 export function Sidebar({ unreadCount = 0, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const sessionData = useSession();
+
+  const session = sessionData?.data;
   const isPro = (session?.user as { plan?: string })?.plan === "pro";
 
   return (
@@ -53,7 +55,12 @@ export function Sidebar({ unreadCount = 0, onClose }: SidebarProps) {
           <span className="gradient-text">HabitFlow</span>
         </Link>
         {onClose && (
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={onClose}
+          >
             <X className="h-4 w-4" />
           </Button>
         )}
@@ -62,8 +69,7 @@ export function Sidebar({ unreadCount = 0, onClose }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 space-y-0.5 px-3 py-4 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
-          const isActive =
-            pathname === href || pathname.startsWith(href + "/");
+          const isActive = pathname === href || pathname.startsWith(href + "/");
           return (
             <Link
               key={href}
@@ -73,7 +79,7 @@ export function Sidebar({ unreadCount = 0, onClose }: SidebarProps) {
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
                 isActive
                   ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-sm"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />

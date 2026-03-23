@@ -12,7 +12,9 @@ import {
 import type { INotification } from "@/types";
 
 export function useNotifications() {
-  const { data: session } = useSession();
+  const sessionData = useSession();
+
+  const session = sessionData?.data;
   const userId = (session?.user as any)?.id as string | undefined;
 
   const [notifications, setNotifications] = useState<INotification[]>([]);
@@ -40,7 +42,7 @@ export function useNotifications() {
 
   async function handleMarkRead(id: string) {
     setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
     setUnreadCount((c) => Math.max(0, c - 1));
     await markAsRead(userId!, id);

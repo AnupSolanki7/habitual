@@ -6,7 +6,9 @@ import { getHabits, getHabitWithStats } from "@/actions/habits";
 import type { HabitWithStats } from "@/types";
 
 export function useHabits() {
-  const { data: session } = useSession();
+  const sessionData = useSession();
+
+  const session = sessionData?.data;
   const userId = (session?.user as any)?.id as string | undefined;
 
   const [habits, setHabits] = useState<HabitWithStats[]>([]);
@@ -20,7 +22,7 @@ export function useHabits() {
     try {
       const basicHabits = await getHabits(userId);
       const withStats = await Promise.all(
-        basicHabits.map((h) => getHabitWithStats(userId, h.id))
+        basicHabits.map((h) => getHabitWithStats(userId, h.id)),
       );
       setHabits(withStats.filter(Boolean) as HabitWithStats[]);
     } catch (err: any) {
