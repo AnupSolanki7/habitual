@@ -234,4 +234,3 @@ NEXTAUTH_SECRET=<strong-random-secret>
 ## License
 
 MIT
-# habitual

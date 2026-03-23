@@ -5,7 +5,11 @@ import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { NotificationItem } from "@/components/notifications/NotificationItem";
-import { markAsRead, markAllAsRead, deleteNotification } from "@/actions/notifications";
+import {
+  markAsRead,
+  markAllAsRead,
+  deleteNotification,
+} from "@/actions/notifications";
 import { useToast } from "@/components/ui/use-toast";
 import type { INotification } from "@/types";
 
@@ -14,7 +18,10 @@ interface NotificationsClientProps {
   initialNotifications: INotification[];
 }
 
-export function NotificationsClient({ userId, initialNotifications }: NotificationsClientProps) {
+export function NotificationsClient({
+  userId,
+  initialNotifications,
+}: NotificationsClientProps) {
   const { toast } = useToast();
   const [notifications, setNotifications] = useState(initialNotifications);
   const [isPending, startTransition] = useTransition();
@@ -23,10 +30,10 @@ export function NotificationsClient({ userId, initialNotifications }: Notificati
 
   function handleMarkRead(id: string) {
     setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
-    startTransition(async () => {
-      await markAsRead(userId, id);
+    startTransition(() => {
+      markAsRead(userId, id);
     });
   }
 
@@ -39,9 +46,10 @@ export function NotificationsClient({ userId, initialNotifications }: Notificati
 
   function handleMarkAllRead() {
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    startTransition(async () => {
-      await markAllAsRead(userId);
-      toast({ title: "All notifications marked as read" });
+    startTransition(() => {
+      markAllAsRead(userId).then(() => {
+        toast({ title: "All notifications marked as read" });
+      });
     });
   }
 
@@ -61,7 +69,12 @@ export function NotificationsClient({ userId, initialNotifications }: Notificati
     <div className="space-y-3">
       {unreadCount > 0 && (
         <div className="flex justify-end">
-          <Button variant="outline" size="sm" onClick={handleMarkAllRead} disabled={isPending}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleMarkAllRead}
+            disabled={isPending}
+          >
             Mark all as read
           </Button>
         </div>

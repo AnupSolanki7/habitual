@@ -1,37 +1,21 @@
-"use client";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { Providers } from "@/components/providers/Providers";
 
-import { useState } from "react";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { Header } from "@/components/layout/Header";
-import { MobileNav } from "@/components/layout/MobileNav";
+const inter = Inter({ subsets: ["latin"] });
 
-interface AppLayoutProps {
-  children: React.ReactNode;
-}
+export const metadata: Metadata = {
+  title: "HabitFlow — Build Better Habits",
+  description: "Track your habits, build streaks, and achieve your goals with HabitFlow.",
+};
 
-export default function AppLayout({ children }: AppLayoutProps) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen bg-background">
-      {/* Desktop sidebar */}
-      <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 z-10">
-        <Sidebar />
-      </div>
-
-      {/* Mobile nav overlay */}
-      <MobileNav
-        open={mobileNavOpen}
-        onClose={() => setMobileNavOpen(false)}
-      />
-
-      {/* Main content */}
-      <div className="flex flex-1 flex-col md:pl-64">
-        <Header onMenuClick={() => setMobileNavOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          {children}
-        </main>
-      </div>
-    </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
   );
 }
