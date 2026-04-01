@@ -43,6 +43,8 @@ export async function generateDailyReminders(userId: string): Promise<void> {
         archived: h.archived,
         createdAt: h.createdAt,
         updatedAt: h.updatedAt,
+        visibility: h.visibility,
+        adoptionCount: h.adoptionCount,
       },
       today
     )

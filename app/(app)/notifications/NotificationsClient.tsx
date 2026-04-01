@@ -31,12 +31,16 @@ export function NotificationsClient({
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
-    startTransition(() => markAsRead(userId, id));
+    startTransition(async () => {
+      await markAsRead(userId, id);
+    });
   }
 
   function handleDelete(id: string) {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-    startTransition(() => deleteNotification(userId, id));
+    startTransition(async () => {
+      await deleteNotification(userId, id);
+    });
   }
 
   function handleMarkAllRead() {

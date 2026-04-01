@@ -40,6 +40,8 @@ function toPlainHabit(doc: any): IHabit {
     frequencyDays: doc.frequencyDays,
     reminderTime: doc.reminderTime,
     archived: doc.archived,
+    visibility: doc.visibility,
+    adoptionCount: doc.adoptionCount,
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
   };

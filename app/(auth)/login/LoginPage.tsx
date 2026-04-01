@@ -21,16 +21,12 @@ const loginSchema = z.object({
 });
 type LoginValues = z.infer<typeof loginSchema>;
 
-export default function LoginPage({ callbackUrl = "/dashboard" } : { callbackUrl?: string }) {
+export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-
-  // If there's a callbackUrl in the search params, use that instead of the prop
-  if (searchParams.get("callbackUrl")) {
-    callbackUrl = searchParams.get("callbackUrl")!;
-  }
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -107,7 +103,6 @@ export default function LoginPage({ callbackUrl = "/dashboard" } : { callbackUrl
           </Button>
         </form>
       </Form>
-
       <p className="text-sm text-center text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link href="/register" className="text-primary hover:underline font-semibold">

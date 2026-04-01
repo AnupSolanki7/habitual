@@ -257,7 +257,6 @@ export function HabitForm({ userId, habit, template, onCancel }: HabitFormProps)
                       )}
                       style={{
                         backgroundColor: color,
-                        ringColor: color,
                       }}
                       onClick={() => field.onChange(color)}
                     />

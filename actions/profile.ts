@@ -15,7 +15,7 @@ export async function getProfileByUsername(username: string) {
 
     const user = await User.findOne({ username: username.toLowerCase() })
         .select("name username image bio followingCount followersCount longestStreak isPublic")
-        .lean();
+        .lean() as any;
 
     if (!user) {
         return null;

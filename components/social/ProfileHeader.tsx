@@ -50,7 +50,7 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
 
                             {!profile.isSelf ? (
                                 <FollowButton
-                                    userId={profile._id}
+                                    targetUserId={profile._id}
                                     initialIsFollowing={profile.isFollowing}
                                 />
                             ) : (

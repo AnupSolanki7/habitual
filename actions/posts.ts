@@ -535,7 +535,7 @@ export async function adoptHabit(
       frequencyType: (source as any).frequencyType,
       frequencyDays: (source as any).frequencyDays,
       visibility: "private", // adopter's copy is private by default
-      copiedFromHabitId: source._id,
+      copiedFromHabitId: (source as any)._id,
       copiedFromUserId: (source as any).userId,
     });
 

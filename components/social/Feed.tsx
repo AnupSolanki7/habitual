@@ -2,9 +2,10 @@ import { PostCard } from "./PostCard";
 
 interface FeedProps {
     posts: any[];
+    currentUserId: string;
 }
 
-export function Feed({ posts }: FeedProps) {
+export function Feed({ posts, currentUserId }: FeedProps) {
     if (!posts || posts.length === 0) {
         return (
             <div className="text-center py-12 bg-muted/30 border border-dashed rounded-xl">
@@ -19,7 +20,7 @@ export function Feed({ posts }: FeedProps) {
     return (
         <div className="space-y-4">
             {posts.map((post) => (
-                <PostCard key={post._id} post={post} />
+                <PostCard key={post._id} post={post} currentUserId={currentUserId} />
             ))}
         </div>
     );

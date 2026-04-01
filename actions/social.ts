@@ -62,7 +62,7 @@ export async function followUser(
     ]);
 
     // Notify the followee
-    const followerDoc = follower as {
+    const followerDoc = follower as any as {
       name: string;
       username?: string;
       image?: string;
@@ -153,7 +153,7 @@ export async function getPublicProfile(
 
     const user = await User.findOne({ username: username.toLowerCase() })
       .select("_id name username image bio isPublic followersCount followingCount")
-      .lean();
+      .lean() as any;
 
     if (!user) {
       return { error: "User not found." };
@@ -180,7 +180,7 @@ export async function getPublicProfile(
 
     const habits = await Habit.find(habitFilter)
       .sort({ createdAt: -1 })
-      .lean();
+      .lean() as any[];
 
     const userDoc = user as {
       _id: { toString(): string };
@@ -287,16 +287,16 @@ export async function getFollowers(
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .populate<{ followerId: { _id: { toString(): string }; name: string; username?: string; image?: string; bio?: string; isPublic: boolean; followersCount: number; followingCount: number } }>(
+        .populate(
           "followerId",
           "name username image bio isPublic followersCount followingCount"
         )
-        .lean(),
+        .lean() as unknown as any[],
       Follow.countDocuments({ followingId: userId }),
     ]);
 
-    const users: IUserPublic[] = follows
-      .map((f) => {
+    const users: any = follows
+      .map((f: any) => {
         const u = f.followerId;
         if (!u) return null;
         return {
@@ -310,7 +310,7 @@ export async function getFollowers(
           followingCount: u.followingCount,
         };
       })
-      .filter((u): u is IUserPublic => u !== null);
+      .filter((u: any): u is IUserPublic => u !== null);
 
     return { data: { users, total } };
   } catch (err) {
@@ -333,16 +333,16 @@ export async function getFollowing(
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .populate<{ followingId: { _id: { toString(): string }; name: string; username?: string; image?: string; bio?: string; isPublic: boolean; followersCount: number; followingCount: number } }>(
+        .populate(
           "followingId",
           "name username image bio isPublic followersCount followingCount"
         )
-        .lean(),
+        .lean() as unknown as any[],
       Follow.countDocuments({ followerId: userId }),
     ]);
 
-    const users: IUserPublic[] = follows
-      .map((f) => {
+    const users: any = follows
+      .map((f: any) => {
         const u = f.followingId;
         if (!u) return null;
         return {
@@ -356,7 +356,7 @@ export async function getFollowing(
           followingCount: u.followingCount,
         };
       })
-      .filter((u): u is IUserPublic => u !== null);
+      .filter((u: any): u is IUserPublic => u !== null);
 
     return { data: { users, total } };
   } catch (err) {
@@ -393,16 +393,7 @@ export async function searchUsers(
       .limit(limit)
       .lean();
 
-    const result: IUserPublic[] = users.map((u: {
-      _id: { toString(): string };
-      name: string;
-      username?: string;
-      image?: string;
-      bio?: string;
-      isPublic: boolean;
-      followersCount: number;
-      followingCount: number;
-    }) => ({
+    const result: IUserPublic[] = users.map((u: any) => ({
       id: u._id.toString(),
       name: u.name,
       username: u.username,

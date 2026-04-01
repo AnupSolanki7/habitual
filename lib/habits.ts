@@ -74,7 +74,7 @@ export function calculateLongestStreak(
   );
 
   // Get date range from first log to today
-  const sortedDates = [...completedDates].sort();
+  const sortedDates = Array.from(completedDates).sort();
   if (sortedDates.length === 0) return 0;
 
   const firstDate = new Date(sortedDates[0]);

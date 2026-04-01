@@ -88,7 +88,7 @@ export async function toggleReaction(postId: string, type: "like" | "fire" | "cl
             postId,
             type
         });
-        const updatedPost = await Post.findByIdAndUpdate(postId, { $inc: { likesCount: 1 } }).lean();
+        const updatedPost = await Post.findByIdAndUpdate(postId, { $inc: { likesCount: 1 } }).lean() as any;
 
         // Create Notification if it's not their own post
         if (updatedPost && updatedPost.userId.toString() !== currentUserId) {

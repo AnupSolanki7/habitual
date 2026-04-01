@@ -20,7 +20,7 @@ export default async function SettingsPage() {
 
   if (!user) redirect("/login");
 
-  const u = user as {
+  const u = user as unknown as {
     name: string;
     email: string;
     username?: string;
