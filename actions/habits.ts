@@ -4,15 +4,13 @@ import { revalidatePath } from "next/cache";
 import { connectDB } from "@/lib/db";
 import Habit from "@/models/Habit";
 import HabitLog from "@/models/HabitLog";
-import User from "@/models/User";
 import {
   calculateCurrentStreak,
   calculateLongestStreak,
   calculateCompletionRate,
   isHabitDueOn,
 } from "@/lib/habits";
-import { FREE_PLAN_HABIT_LIMIT } from "@/constants";
-import type { IHabit, HabitWithStats, ActionResult } from "@/types";
+import type { IHabit, HabitWithStats, ActionResult, HabitVisibility } from "@/types";
 import { format, subDays } from "date-fns";
 
 function toPlainHabit(doc: any): IHabit {
@@ -30,6 +28,10 @@ function toPlainHabit(doc: any): IHabit {
     frequencyDays: doc.frequencyDays,
     reminderTime: doc.reminderTime,
     archived: doc.archived,
+    visibility: doc.visibility ?? "private",
+    adoptionCount: doc.adoptionCount ?? 0,
+    copiedFromHabitId: doc.copiedFromHabitId?.toString(),
+    copiedFromUserId: doc.copiedFromUserId?.toString(),
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
   };
@@ -61,27 +63,14 @@ export async function getHabitById(
 
 export async function createHabit(
   userId: string,
-  data: Omit<IHabit, "id" | "userId" | "archived" | "createdAt" | "updatedAt">
+  data: Omit<IHabit, "id" | "userId" | "archived" | "createdAt" | "updatedAt" | "adoptionCount" | "visibility" | "copiedFromHabitId" | "copiedFromUserId"> & {
+    visibility?: HabitVisibility;
+    copiedFromHabitId?: string;
+    copiedFromUserId?: string;
+  }
 ): Promise<ActionResult<IHabit>> {
   try {
     await connectDB();
-
-    // Check plan limits
-    const user = await User.findById(userId).lean();
-    if (!user) return { error: "User not found" };
-
-    if ((user as any).plan === "free") {
-      const activeCount = await Habit.countDocuments({
-        userId,
-        archived: false,
-      });
-      if (activeCount >= FREE_PLAN_HABIT_LIMIT) {
-        return {
-          error: `Free plan is limited to ${FREE_PLAN_HABIT_LIMIT} active habits. Upgrade to Pro for unlimited habits.`,
-        };
-      }
-    }
-
     const habit = await Habit.create({ userId, ...data });
     revalidatePath("/habits");
     revalidatePath("/dashboard");

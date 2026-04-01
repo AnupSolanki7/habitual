@@ -17,6 +17,8 @@ export const config = {
     "/dashboard/:path*",
     "/habits/:path*",
     "/analytics/:path*",
+    "/social/:path*",
+    "/explore/:path*",
     "/notifications/:path*",
     "/settings/:path*",
   ],

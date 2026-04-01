@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import { Check, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { logHabit } from "@/actions/habitLogs";
 import { useToast } from "@/components/ui/use-toast";
@@ -54,53 +53,60 @@ export function HabitLogButton({ habit, userId, onSuccess }: HabitLogButtonProps
 
   if (habit.targetType === "boolean") {
     return (
-      <Button
-        size="sm"
-        variant={isCompleted ? "default" : "outline"}
-        className={cn(
-          "min-w-[80px] transition-all",
-          isCompleted && "bg-green-600 hover:bg-green-700 text-white border-green-600"
-        )}
+      <button
         onClick={handleBooleanLog}
         disabled={isPending}
+        className={cn(
+          "h-10 w-10 shrink-0 rounded-full border-2 flex items-center justify-center transition-all duration-200",
+          isPending && "opacity-60 cursor-not-allowed",
+          isCompleted
+            ? "bg-gradient-to-br from-emerald-400 to-green-500 border-transparent shadow-md shadow-emerald-500/30"
+            : "border-white/40 bg-white/10 hover:border-white/70 hover:bg-white/20 active:scale-95"
+        )}
+        aria-label={isCompleted ? "Mark as not done" : "Mark as done"}
       >
         {isCompleted ? (
-          <>
-            <Check className="h-3 w-3 mr-1" /> Done
-          </>
+          <Check className="h-5 w-5 text-white" strokeWidth={2.5} />
         ) : (
-          "Mark Done"
+          <div className="h-3.5 w-3.5 rounded-full border-2 border-white/60" />
         )}
-      </Button>
+      </button>
     );
   }
 
+  // Count / duration type
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1.5">
       <Button
         size="icon"
-        variant="outline"
-        className="h-7 w-7"
+        variant="ghost"
+        className="h-8 w-8 rounded-full bg-white/15 text-white hover:bg-white/25 border-0"
         onClick={() => handleValueLog(value - 1)}
         disabled={isPending}
       >
-        <Minus className="h-3 w-3" />
+        <Minus className="h-3.5 w-3.5" />
       </Button>
-      <span className="text-sm font-medium min-w-[40px] text-center">
+      <span className="text-sm font-semibold text-white min-w-[44px] text-center">
         {value}/{habit.targetValue}
         {habit.targetType === "duration" ? "m" : ""}
       </span>
       <Button
         size="icon"
-        variant="outline"
+        variant="ghost"
         className={cn(
-          "h-7 w-7",
-          isCompleted && "bg-green-600 hover:bg-green-700 text-white border-green-600"
+          "h-8 w-8 rounded-full border-0",
+          isCompleted
+            ? "bg-gradient-to-br from-emerald-400 to-green-500 text-white hover:opacity-90"
+            : "bg-white/15 text-white hover:bg-white/25"
         )}
         onClick={() => handleValueLog(value + 1)}
         disabled={isPending}
       >
-        {isCompleted ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+        {isCompleted ? (
+          <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+        ) : (
+          <Plus className="h-3.5 w-3.5" />
+        )}
       </Button>
     </div>
   );

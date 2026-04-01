@@ -28,6 +28,10 @@ function toPlainHabit(doc: any): IHabit {
     frequencyDays: doc.frequencyDays,
     reminderTime: doc.reminderTime,
     archived: doc.archived,
+    visibility: doc.visibility ?? "private",
+    adoptionCount: doc.adoptionCount ?? 0,
+    copiedFromHabitId: doc.copiedFromHabitId?.toString(),
+    copiedFromUserId: doc.copiedFromUserId?.toString(),
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
   };

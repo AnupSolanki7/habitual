@@ -1,4 +1,5 @@
-export const FREE_PLAN_HABIT_LIMIT = 3;
+/** Minimum streak length required before a user can share it publicly */
+export const MIN_SHARE_STREAK = 3;
 
 export const HABIT_CATEGORIES = [
   { value: "Health", label: "Health" },

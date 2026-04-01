@@ -14,6 +14,9 @@ function toPlainNotification(doc: any): INotification {
     title: doc.title,
     message: doc.message,
     read: doc.read,
+    relatedUserId: doc.relatedUserId?.toString(),
+    relatedPostId: doc.relatedPostId?.toString(),
+    relatedHabitId: doc.relatedHabitId?.toString(),
     metadata: doc.metadata,
     createdAt: doc.createdAt,
   };

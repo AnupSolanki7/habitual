@@ -108,12 +108,6 @@ export default function LoginPage({ callbackUrl = "/dashboard" } : { callbackUrl
         </form>
       </Form>
 
-      <div className="rounded-xl bg-muted/50 border p-4 text-sm text-muted-foreground">
-        <p className="font-medium text-foreground mb-1">Demo account</p>
-        <p>Email: <code className="text-xs bg-muted px-1 py-0.5 rounded">demo@habitflow.app</code></p>
-        <p>Password: <code className="text-xs bg-muted px-1 py-0.5 rounded">demo1234</code></p>
-      </div>
-
       <p className="text-sm text-center text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link href="/register" className="text-primary hover:underline font-semibold">

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"^/c/Users/ankit/Desktop/Development/practice/habit-tracker/[^/]+$\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\ankit\\Desktop\\Development\\practice\\habit-tracker\\app\\api\\users"
+    ]
+  }
+}

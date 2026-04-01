@@ -13,6 +13,11 @@ export interface IHabitDocument extends Document {
   frequencyDays?: number[];
   reminderTime?: string;
   archived: boolean;
+  // Social fields
+  visibility: "private" | "public";
+  adoptionCount: number;
+  copiedFromHabitId?: Types.ObjectId;
+  copiedFromUserId?: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,6 +44,15 @@ const HabitSchema = new Schema<IHabitDocument>(
     frequencyDays: [{ type: Number }],
     reminderTime: { type: String },
     archived: { type: Boolean, default: false },
+    // Social fields
+    visibility: {
+      type: String,
+      enum: ["private", "public"],
+      default: "private",
+    },
+    adoptionCount: { type: Number, default: 0, min: 0 },
+    copiedFromHabitId: { type: Schema.Types.ObjectId, ref: "Habit" },
+    copiedFromUserId: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
