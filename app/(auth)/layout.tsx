@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
             <Zap className="h-5 w-5 text-white" />
           </div>
-          HabitFlow
+          Habi2ual
         </Link>
 
         {/* Quote */}
@@ -59,7 +59,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600">
             <Zap className="h-4 w-4 text-white" />
           </div>
-          <span className="gradient-text">HabitFlow</span>
+          <span className="gradient-text">Habi2ual</span>
         </Link>
 
         <div className="w-full max-w-sm animate-slide-up">

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Target } from "lucide-react";
 
 export const metadata = {
-    title: "Challenges | HabitFlow",
+    title: "Challenges | Habi2ual",
 };
 
 export default async function ChallengesPage() {

@@ -98,20 +98,20 @@ async function seed() {
   console.log("✅  Connected.");
 
   // Clean up existing seed data
-  await User.deleteOne({ email: "demo@habitflow.app" });
+  await User.deleteOne({ email: "demo@Habi2ual.app" });
 
   // Create demo user
   const password = await bcrypt.hash("demo1234", 12);
   const user = await User.create({
     name: "Alex Demo",
-    email: "demo@habitflow.app",
+    email: "demo@Habi2ual.app",
     password,
     timezone: "UTC",
     plan: "free",
   });
 
   const userId = user._id;
-  console.log(`👤  Created demo user: demo@habitflow.app / demo1234`);
+  console.log(`👤  Created demo user: demo@Habi2ual.app / demo1234`);
 
   // Create habits
   const habitsData = [
@@ -188,7 +188,7 @@ async function seed() {
   await Notification.create({
     userId,
     type: "system",
-    title: "Welcome to HabitFlow! 🎉",
+    title: "Welcome to Habi2ual! 🎉",
     message: "You've successfully set up your account. Start tracking habits to build your streak.",
     read: false,
   });
@@ -203,7 +203,7 @@ async function seed() {
 
   console.log("📓  Created sample journal entry and notification");
   console.log("\n✅  Seeding complete!");
-  console.log("   Email:    demo@habitflow.app");
+  console.log("   Email:    demo@Habi2ual.app");
   console.log("   Password: demo1234");
 
   await mongoose.disconnect();

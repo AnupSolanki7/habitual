@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          folder: "habitflow/avatars",
+          folder: "Habi2ual/avatars",
           public_id: userId,      // one avatar per user; overwrites on re-upload
           overwrite: true,
           invalidate: true,       // bust CDN cache

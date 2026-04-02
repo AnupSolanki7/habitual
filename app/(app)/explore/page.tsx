@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { getAllPublicUsers, getPublicHabits, searchUsers } from "@/actions/social";
 import { ExploreClient } from "./ExploreClient";
 
-export const metadata = { title: "Explore · HabitFlow" };
+export const metadata = { title: "Explore · Habi2ual" };
 
 interface Props {
   searchParams: { q?: string; tab?: string };

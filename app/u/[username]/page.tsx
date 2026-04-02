@@ -16,7 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props) {
-  return { title: `@${params.username} · HabitFlow` };
+  return { title: `@${params.username} · Habi2ual` };
 }
 
 export default async function UserProfilePage({ params }: Props) {
@@ -59,7 +59,7 @@ export default async function UserProfilePage({ params }: Props) {
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            {session ? "Home" : "HabitFlow"}
+            {session ? "Home" : "Habi2ual"}
           </Link>
           {!session && (
             <Link
@@ -215,7 +215,7 @@ function PrivateProfileView({
           className="inline-flex items-center gap-1.5 text-sm text-violet-600 hover:underline"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          {hasSession ? "Back to Home" : "Back to HabitFlow"}
+          {hasSession ? "Back to Home" : "Back to Habi2ual"}
         </Link>
       </div>
     </div>

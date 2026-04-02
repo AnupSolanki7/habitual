@@ -1,4 +1,4 @@
-# HabitFlow — Habit Tracker MVP
+# Habi2ual — Habit Tracker MVP
 
 A production-ready habit tracking SaaS application built with Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, NextAuth, and MongoDB Atlas.
 
@@ -117,7 +117,7 @@ npm run seed
 ```
 
 This creates:
-- User: `demo@habitflow.app` / `demo1234`
+- User: `demo@Habi2ual.app` / `demo1234`
 - 3 sample habits (Morning Run, Read, Meditate)
 - 30 days of randomized habit logs
 - A welcome notification

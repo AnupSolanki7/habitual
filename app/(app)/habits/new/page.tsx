@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { NewHabitClient } from "@/components/habits/NewHabitClient";
 
-export const metadata = { title: "New Habit · HabitFlow" };
+export const metadata = { title: "New Habit · Habi2ual" };
 
 export default async function NewHabitPage() {
   const session = await getServerSession(authOptions);

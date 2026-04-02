@@ -531,7 +531,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   BOTTOM NAVIGATION
+   BOTTOM NAVIGATION (legacy dock — kept for reference)
 ══════════════════════════════════════════════════════════════════════════ */
 .bottom-nav-bar {
   background: rgba(15, 23, 42, 0.92);
@@ -542,6 +542,140 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.28),
     0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE FAB NAV  (bottom-left orb → horizontal dock)
+══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Orb trigger ── */
+.fab-trigger {
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 55%, #EC4899 100%);
+  box-shadow:
+    0 8px 24px -4px rgba(99, 102, 241, 0.58),
+    0 2px 6px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.fab-trigger:hover {
+  transform: scale(1.07);
+  box-shadow:
+    0 12px 32px -4px rgba(99, 102, 241, 0.70),
+    0 4px 10px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+.fab-trigger:active {
+  transform: scale(0.92);
+  transition-duration: 0.08s;
+}
+
+/* Icon rotation inside trigger */
+.fab-trigger-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fab-trigger-icon--open {
+  transform: rotate(90deg);
+}
+
+/* ── Horizontal glass dock ──
+   max-width animates 0 → open value for the slide-out effect.
+   overflow-hidden clips items cleanly during animation.
+   white-space: nowrap prevents items from wrapping during transition. */
+.fab-dock {
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 9999px;
+  box-shadow:
+    0 8px 28px -4px rgba(0, 0, 0, 0.14),
+    0 2px 8px rgba(0, 0, 0, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 1.0);
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-width 0.30s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dark .fab-dock {
+  background: rgba(13, 20, 40, 0.90);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 8px 28px -4px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* 6 items × 40px + gap-1(4px)×5 + px-2(8px)×2 = 276px */
+.fab-dock--open {
+  max-width: 300px;
+  opacity: 1;
+}
+.fab-dock--closed {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Individual dock items (icon-only circles) ── */
+.fab-dock-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.13s ease, color 0.13s ease, transform 0.11s ease;
+}
+.fab-dock-item:hover {
+  background: rgba(99, 102, 241, 0.09);
+  color: hsl(var(--foreground));
+  transform: scale(1.10);
+}
+.fab-dock-item:active {
+  transform: scale(0.93);
+  transition-duration: 0.07s;
+}
+
+.fab-dock-item--active {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.15) 0%,
+    rgba(124, 58, 237, 0.15) 100%
+  );
+  color: #4f46e5;
+}
+.dark .fab-dock-item--active {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.30) 0%,
+    rgba(124, 58, 237, 0.24) 100%
+  );
+  color: #818cf8;
+}
+
+/* New Habit action accent */
+.fab-dock-item--action {
+  color: #7c3aed;
+}
+.dark .fab-dock-item--action {
+  color: #a78bfa;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════

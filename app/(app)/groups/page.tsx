@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users } from "lucide-react";
 
 export const metadata = {
-    title: "Groups | HabitFlow",
+    title: "Groups | Habi2ual",
 };
 
 export default async function GroupsPage() {

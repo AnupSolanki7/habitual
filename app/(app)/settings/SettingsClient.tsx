@@ -146,7 +146,7 @@ export function SettingsClient({
       <Card className="border-border/60 shadow-sm">
         <CardHeader>
           <CardTitle>Public Profile</CardTitle>
-          <CardDescription>How you appear to other HabitFlow users</CardDescription>
+          <CardDescription>How you appear to other Habi2ual users</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {/* Avatar uploader */}

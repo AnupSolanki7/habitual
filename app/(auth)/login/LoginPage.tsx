@@ -56,7 +56,7 @@ export default function LoginPage() {
     <div className="space-y-7">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
-        <p className="text-sm text-muted-foreground mt-1">Sign in to your HabitFlow account</p>
+        <p className="text-sm text-muted-foreground mt-1">Sign in to your Habi2ual account</p>
       </div>
 
       <Form {...form}>

@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { NotificationsClient } from "./NotificationsClient";
 import { getNotifications } from "@/actions/notifications";
 
-export const metadata = { title: "Notifications · HabitFlow" };
+export const metadata = { title: "Notifications · Habi2ual" };
 
 export default async function NotificationsPage() {
   const session = await getServerSession(authOptions);

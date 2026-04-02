@@ -54,7 +54,7 @@ export function Sidebar({ unreadCount = 0, onClose }: SidebarProps) {
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-sm">
             <Zap className="h-4 w-4 text-white" />
           </div>
-          <span className="gradient-text">HabitFlow</span>
+          <span className="gradient-text">Habi2ual</span>
         </Link>
         {onClose && (
           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>

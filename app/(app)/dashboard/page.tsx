@@ -23,7 +23,7 @@ import { PublicHabitCard } from "@/components/explore/PublicHabitCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata = { title: "Home · HabitFlow" };
+export const metadata = { title: "Home · Habi2ual" };
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -59,7 +59,10 @@ export default async function DashboardPage() {
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
-    <div className="max-w-2xl mx-auto space-y-5 page-container">
+    <div className="space-y-5 page-container">
+
+    {/* ─── Single-column sections (hero + habits): capped at 2xl ────── */}
+    <div className="max-w-4xl mx-auto w-full space-y-5">
 
       {/* ── Hero greeting ────────────────────────────────────────────── */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-lg shadow-blue-500/20">
@@ -122,11 +125,19 @@ export default async function DashboardPage() {
       {/* ── Today's Habits (full-width blue section) ─────────────────── */}
       <TodayHabits habits={dashboardData.todayHabits} userId={userId} />
 
+    </div>{/* end narrow zone */}
+
       {/* ── Social feed + sidebar ────────────────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      {/*
+        Full-width two-column grid.
+        Feed column is flexible (min-w-0 prevents overflow bleed).
+        Sidebar column is fixed at 300px — enough for UserCard + FollowButton.
+        Grid activates at lg (1024px); below that everything stacks.
+      */}
+      <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-5">
 
         {/* Social feed */}
-        <div className="lg:col-span-2 glass-panel p-4">
+        <div className="min-w-0 glass-panel p-4">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-semibold text-sm flex items-center gap-2">
               <Users className="h-4 w-4 text-blue-500" />

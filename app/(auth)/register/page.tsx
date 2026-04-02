@@ -44,7 +44,7 @@ export default function RegisterPage() {
         toast({ variant: "destructive", title: "Registration failed", description: data.error ?? "Something went wrong." });
         return;
       }
-      toast({ title: "Account created!", description: "Welcome to HabitFlow." });
+      toast({ title: "Account created!", description: "Welcome to Habi2ual." });
       router.push("/login");
     } catch {
       toast({ variant: "destructive", title: "Error", description: "Something went wrong. Please try again." });

@@ -25,14 +25,14 @@ export function StreakCardModal({ streak, username }: StreakCardModalProps) {
             try {
                 await navigator.share({
                     title: "My Habit Streak",
-                    text: `I'm on a ${streak}-day streak on HabitFlow! Beat that. 🔥 @${username}`,
+                    text: `I'm on a ${streak}-day streak on Habi2ual! Beat that. 🔥 @${username}`,
                     url: window.location.href,
                 });
             } catch (err) {
                 console.error("Error sharing", err);
             }
         } else {
-            navigator.clipboard.writeText(`I'm on a ${streak}-day streak on HabitFlow! Beat that. 🔥 @${username}`);
+            navigator.clipboard.writeText(`I'm on a ${streak}-day streak on Habi2ual! Beat that. 🔥 @${username}`);
             toast({ title: "Copied!", description: "Streak info copied to clipboard." });
         }
     };
@@ -58,7 +58,7 @@ export function StreakCardModal({ streak, username }: StreakCardModalProps) {
                     <p className="text-xl font-medium text-white/90 uppercase tracking-widest">Day Streak</p>
 
                     <div className="mt-8 pt-4 border-t border-white/20 w-full text-center">
-                        <p className="text-sm text-white/70 font-medium tracking-wide">@{" "}{username} • HabitFlow</p>
+                        <p className="text-sm text-white/70 font-medium tracking-wide">@{" "}{username} • Habi2ual</p>
                     </div>
                 </div>
 

@@ -6,8 +6,8 @@ import { Providers } from "@/components/providers/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "HabitFlow — Build Better Habits",
-  description: "Track your habits, build streaks, and achieve your goals with HabitFlow.",
+  title: "Habi2ual — Build Better Habits",
+  description: "Track your habits, build streaks, and achieve your goals with Habi2ual.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

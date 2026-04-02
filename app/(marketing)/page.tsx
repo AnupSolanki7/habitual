@@ -55,7 +55,7 @@ export default function LandingPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 shadow-sm">
               <Zap className="h-4 w-4 text-white" />
             </div>
-            <span className="gradient-text">HabitFlow</span>
+            <span className="gradient-text">Habi2ual</span>
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
@@ -96,7 +96,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            HabitFlow helps you create, track, and analyze your daily habits with
+            Habi2ual helps you create, track, and analyze your daily habits with
             smart reminders, streak tracking, and beautiful analytics — all in one place.
           </p>
 
@@ -220,7 +220,7 @@ export default function LandingPage() {
         <div className="rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-600 p-10 text-center text-white">
           <h2 className="text-2xl sm:text-3xl font-bold mb-3">Ready to build better habits?</h2>
           <p className="text-violet-100 mb-7 max-w-md mx-auto">
-            Join thousands of people who use HabitFlow to track their progress every day.
+            Join thousands of people who use Habi2ual to track their progress every day.
           </p>
           <Button size="lg" variant="secondary" className="px-8 shadow-lg" asChild>
             <Link href="/register">
@@ -237,9 +237,9 @@ export default function LandingPage() {
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-violet-600 to-indigo-600">
               <Zap className="h-3 w-3 text-white" />
             </div>
-            <span className="font-semibold text-foreground">HabitFlow</span>
+            <span className="font-semibold text-foreground">Habi2ual</span>
           </div>
-          <p>© {new Date().getFullYear()} HabitFlow. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Habi2ual. All rights reserved.</p>
         </div>
       </footer>
     </div>

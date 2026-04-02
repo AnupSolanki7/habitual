@@ -9,7 +9,7 @@ import { getFeedPosts } from "@/actions/posts";
 import { SocialFeedClient } from "./SocialFeedClient";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "Social · HabitFlow" };
+export const metadata = { title: "Social · Habi2ual" };
 
 export default async function SocialPage() {
   const session = await getServerSession(authOptions);

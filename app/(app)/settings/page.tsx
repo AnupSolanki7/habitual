@@ -5,7 +5,7 @@ import { SettingsClient } from "./SettingsClient";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
-export const metadata = { title: "Settings · HabitFlow" };
+export const metadata = { title: "Settings · Habi2ual" };
 
 export default async function SettingsPage() {
   const session = await getServerSession(authOptions);

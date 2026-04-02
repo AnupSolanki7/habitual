@@ -1,28 +1,27 @@
 "use client";
 
-import { Menu, Moon, Sun } from "lucide-react";
+import Link from "next/link";
+import { Moon, Sun, Zap } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 
-interface HeaderProps {
-  onMenuClick: () => void;
-}
-
-export function Header({ onMenuClick }: HeaderProps) {
+export function Header() {
   const { theme, setTheme } = useTheme();
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b glass px-4 shrink-0">
-      {/* Mobile menu trigger */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="md:hidden"
-        onClick={onMenuClick}
+      {/* Brand — mobile only; desktop sidebar already carries the logo */}
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-2 md:hidden"
+        aria-label="Habi2ual home"
       >
-        <Menu className="h-5 w-5" />
-      </Button>
+        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-sm">
+          <Zap className="h-4 w-4 text-white" />
+        </div>
+        <span className="font-bold text-base gradient-text">Habi2ual</span>
+      </Link>
 
       <div className="flex-1" />
 
