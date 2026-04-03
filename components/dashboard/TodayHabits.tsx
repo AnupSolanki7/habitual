@@ -95,7 +95,7 @@ export function TodayHabits({ habits, userId }: TodayHabitsProps) {
                 {habit.isCompletedToday ? (
                   <Check className="h-4 w-4 text-white/50" strokeWidth={2.5} />
                 ) : (
-                  <HabitIcon className="h-5 w-5" style={{ color: habit.color }} />
+                  <HabitIcon className="h-5 w-5" style={{ color: "white" }} />
                 )}
               </div>
 

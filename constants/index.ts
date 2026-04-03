@@ -58,3 +58,36 @@ export const FREQUENCY_TYPES = [
   { value: "weekly", label: "Weekly" },
   { value: "custom", label: "Custom days" },
 ];
+
+export const DAILY_QUOTES = [
+  {
+    text: "Every action you take is a vote for the person you wish to become.",
+    author: "James Clear",
+    category: "identity",
+  },
+  {
+    text: "You do not rise to the level of your goals. You fall to the level of your systems.",
+    author: "James Clear",
+    category: "systems",
+  },
+  {
+    text: "Small habits compound into remarkable results.",
+    author: "James Clear",
+    category: "consistency",
+  },
+  {
+    text: "Be the designer of your world, not merely the consumer of it.",
+    author: "James Clear",
+    category: "focus",
+  },
+  {
+    text: "The quality of your life depends on the quality of your habits.",
+    author: "James Clear",
+    category: "identity",
+  },
+  {
+    text: "Just show up today.",
+    author: null,
+    category: "resilience",
+  },
+];
