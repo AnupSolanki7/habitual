@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Laugh, Smile, Meh, Frown, Angry, type LucideIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +11,14 @@ import { cn } from "@/lib/utils";
 import { MOOD_OPTIONS } from "@/constants";
 import { upsertJournalEntry } from "@/actions/journal";
 import type { IJournalEntry, MoodType } from "@/types";
+
+const MOOD_ICONS: Record<string, LucideIcon> = {
+  great:    Laugh,
+  good:     Smile,
+  okay:     Meh,
+  bad:      Frown,
+  terrible: Angry,
+};
 
 interface JournalFormProps {
   userId: string;
@@ -48,25 +57,28 @@ export function JournalForm({ userId, date, existingEntry }: JournalFormProps) {
         <div>
           <p className="text-sm font-medium mb-2">How are you feeling?</p>
           <div className="flex gap-2">
-            {MOOD_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() =>
-                  setMood(mood === option.value ? undefined : (option.value as MoodType))
-                }
-                className={cn(
-                  "flex flex-col items-center gap-1 rounded-lg p-2 text-xs transition-colors",
-                  mood === option.value
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary hover:bg-secondary/80"
-                )}
-                title={option.label}
-              >
-                <span className="text-lg">{option.emoji}</span>
-                <span>{option.label}</span>
-              </button>
-            ))}
+            {MOOD_OPTIONS.map((option) => {
+              const MoodIcon = MOOD_ICONS[option.value] ?? Meh;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() =>
+                    setMood(mood === option.value ? undefined : (option.value as MoodType))
+                  }
+                  className={cn(
+                    "flex flex-col items-center gap-1 rounded-xl p-2.5 text-xs transition-colors",
+                    mood === option.value
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary hover:bg-secondary/80"
+                  )}
+                  title={option.label}
+                >
+                  <MoodIcon className="h-5 w-5" />
+                  <span>{option.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
         <div>

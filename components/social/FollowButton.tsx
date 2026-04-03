@@ -13,6 +13,8 @@ interface FollowButtonProps {
   onToggle?: (nowFollowing: boolean) => void;
   className?: string;
   size?: "sm" | "default" | "lg";
+  /** Compact pill style for use in sidebars / cards */
+  compact?: boolean;
 }
 
 export function FollowButton({
@@ -21,6 +23,7 @@ export function FollowButton({
   onToggle,
   className,
   size = "sm",
+  compact = false,
 }: FollowButtonProps) {
   const { toast } = useToast();
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
@@ -79,7 +82,8 @@ export function FollowButton({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        "min-w-[100px] gap-1.5 transition-all",
+        "gap-1.5 transition-all rounded-full",
+        compact ? "h-7 px-3 text-xs min-w-0" : "min-w-[100px]",
         isFollowing && !showUnfollow && "border-violet-300 text-violet-700 dark:border-violet-700 dark:text-violet-300",
         showUnfollow && "border-destructive/50 text-destructive hover:bg-destructive/5",
         !isFollowing && "bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:opacity-90 border-0",

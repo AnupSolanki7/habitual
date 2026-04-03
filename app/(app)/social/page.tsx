@@ -46,36 +46,42 @@ export default async function SocialPage() {
         <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-6 left-6 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
 
-        <div className="relative z-10 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-xl font-bold leading-tight">Social</h1>
-            <p className="text-white/70 text-sm mt-0.5">
-              Updates from your network
-            </p>
-            {/* Stats pills */}
-            <div className="flex items-center gap-3 mt-3">
-              <div className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur-sm">
-                <UserCheck className="h-3.5 w-3.5 text-white/80" />
-                <span className="text-sm font-bold">{followers.toLocaleString()}</span>
-                <span className="text-xs text-white/70">followers</span>
-              </div>
-              <div className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur-sm">
-                <Users className="h-3.5 w-3.5 text-white/80" />
-                <span className="text-sm font-bold">{following.toLocaleString()}</span>
-                <span className="text-xs text-white/70">following</span>
-              </div>
+        <div className="relative z-10">
+          {/* Title row */}
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="text-xl font-bold leading-tight">Social</h1>
+              <p className="text-white/70 text-sm mt-0.5">
+                Updates from your network
+              </p>
             </div>
+            <Link href="/explore" className="shrink-0 mt-0.5">
+              <Button
+                size="sm"
+                className="rounded-full gap-1.5 bg-white/20 hover:bg-white/30 border border-white/25 text-white text-xs backdrop-blur-sm h-8 px-3"
+              >
+                <UserPlus className="h-3.5 w-3.5" />
+                <span className="hidden xs:inline">Find people</span>
+                <span className="xs:hidden">Find</span>
+              </Button>
+            </Link>
           </div>
 
-          <Link href="/explore" className="shrink-0">
-            <Button
-              size="sm"
-              className="rounded-xl gap-1.5 bg-white/20 hover:bg-white/30 border border-white/20 text-white text-xs backdrop-blur-sm"
-            >
-              <UserPlus className="h-3.5 w-3.5" />
-              Find people
-            </Button>
-          </Link>
+          {/* Stats pills */}
+          <div className="flex items-center gap-2.5 mt-4">
+            <div className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 backdrop-blur-sm">
+              <UserCheck className="h-3.5 w-3.5 text-white/80" />
+              <span className="text-sm font-bold leading-none">{followers.toLocaleString()}</span>
+              <span className="text-xs text-white/65 leading-none">
+                {followers === 1 ? "follower" : "followers"}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 backdrop-blur-sm">
+              <Users className="h-3.5 w-3.5 text-white/80" />
+              <span className="text-sm font-bold leading-none">{following.toLocaleString()}</span>
+              <span className="text-xs text-white/65 leading-none">following</span>
+            </div>
+          </div>
         </div>
       </div>
 

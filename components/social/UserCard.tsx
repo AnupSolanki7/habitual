@@ -32,7 +32,7 @@ export function UserCard({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-sm hover:shadow-md transition-shadow",
+        "flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-3 py-2.5 hover:bg-accent/30 transition-colors",
         className
       )}
     >
@@ -40,9 +40,9 @@ export function UserCard({
         href={user.username ? `/u/${user.username}` : "#"}
         className="shrink-0"
       >
-        <Avatar className="h-11 w-11 ring-2 ring-violet-100 dark:ring-violet-900/40">
+        <Avatar className="h-9 w-9 ring-2 ring-violet-100 dark:ring-violet-900/40">
           <AvatarImage src={user.image ?? ""} alt={user.name} />
-          <AvatarFallback className="bg-gradient-to-br from-violet-500 to-indigo-500 text-white text-sm font-semibold">
+          <AvatarFallback className="bg-gradient-to-br from-violet-500 to-indigo-500 text-white text-xs font-semibold">
             {getInitials(user.name)}
           </AvatarFallback>
         </Avatar>
@@ -54,17 +54,15 @@ export function UserCard({
           className="hover:underline underline-offset-2"
         >
           <p className="text-sm font-semibold truncate leading-tight">{user.name}</p>
-          {user.username && (
-            <p className="text-xs text-muted-foreground truncate">@{user.username}</p>
-          )}
         </Link>
-        {user.bio && (
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{user.bio}</p>
-        )}
-        <div className="flex items-center gap-2 mt-1">
-          <Users className="h-3 w-3 text-muted-foreground" />
+        <div className="flex items-center gap-1.5 mt-0.5">
+          {user.username && (
+            <span className="text-xs text-muted-foreground truncate">@{user.username}</span>
+          )}
+          <span className="text-muted-foreground/40 text-xs">·</span>
+          <Users className="h-3 w-3 text-muted-foreground/60 shrink-0" />
           <span className="text-xs text-muted-foreground">
-            {(user.followersCount + followerDelta).toLocaleString()} followers
+            {(user.followersCount + followerDelta).toLocaleString()}
           </span>
         </div>
       </div>
@@ -74,6 +72,8 @@ export function UserCard({
           targetUserId={user.id}
           initialIsFollowing={initialIsFollowing}
           onToggle={handleToggle}
+          size="sm"
+          compact
         />
       )}
     </div>

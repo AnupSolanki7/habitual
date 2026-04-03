@@ -8,6 +8,7 @@ import {
   TEMPLATE_CATEGORIES,
   TEMPLATE_CATEGORY_STYLES,
 } from "@/constants/templates";
+import { getCategoryIcon } from "@/constants/habitIcons";
 import type { IHabitTemplate } from "@/types";
 
 interface TemplateSelectorProps {
@@ -87,7 +88,7 @@ export function TemplateSelector({ selected, onSelect }: TemplateSelectorProps) 
                     : {}
                 }
               >
-                {style && <span>{style.emoji}</span>}
+                {cat !== "All" && (() => { const CatIcon = getCategoryIcon(cat); return <CatIcon className="h-3 w-3" />; })()}
                 {cat}
               </button>
             );
@@ -122,15 +123,22 @@ export function TemplateSelector({ selected, onSelect }: TemplateSelectorProps) 
                     : `1.5px solid ${style?.from ?? "#6366f1"}20`,
                 }}
               >
-                {/* Emoji */}
-                <div
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-xl text-xl shadow-sm transition-transform duration-150 group-hover:scale-110",
-                    isSelected ? "bg-white/25" : "bg-white/70 dark:bg-white/10"
-                  )}
-                >
-                  {template.emoji}
-                </div>
+                {/* Category icon */}
+                {(() => {
+                  const TplIcon = getCategoryIcon(template.category);
+                  return (
+                    <div
+                      className={cn(
+                        "flex h-9 w-9 items-center justify-center rounded-xl shadow-sm transition-transform duration-150 group-hover:scale-110",
+                        isSelected ? "bg-white/25" : "bg-white/70 dark:bg-white/10"
+                      )}
+                    >
+                      <TplIcon
+                        className={cn("h-5 w-5", isSelected ? "text-white" : "text-foreground/70")}
+                      />
+                    </div>
+                  );
+                })()}
 
                 {/* Title */}
                 <div className="space-y-0.5 flex-1">

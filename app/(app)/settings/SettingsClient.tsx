@@ -10,7 +10,9 @@ import {
   ExternalLink,
   Globe,
   Lock,
+  LogOut,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { ProfileImageUploader } from "@/components/profile/ProfileImageUploader";
 import {
   Card,
@@ -238,13 +240,31 @@ export function SettingsClient({
       <Card className="border-border/60 shadow-sm">
         <CardHeader>
           <CardTitle>Account</CardTitle>
-          <CardDescription>Your email address</CardDescription>
+          <CardDescription>Your email address and session</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="email">Email</Label>
             <Input id="email" value={initialEmail} disabled />
             <p className="text-xs text-muted-foreground">Email cannot be changed.</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">Sign out</p>
+              <p className="text-xs text-muted-foreground">Sign out of your account on this device.</p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-muted-foreground hover:text-foreground"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              Sign out
+            </Button>
           </div>
         </CardContent>
       </Card>

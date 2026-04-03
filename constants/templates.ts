@@ -3,14 +3,14 @@ import type { IHabitTemplate } from "@/types";
 // Category gradient colours used by the TemplateSelector card UI
 export const TEMPLATE_CATEGORY_STYLES: Record<
   string,
-  { from: string; to: string; emoji: string }
+  { from: string; to: string }
 > = {
-  Fitness:         { from: "#3b82f6", to: "#6366f1", emoji: "💪" },
-  Health:          { from: "#22c55e", to: "#10b981", emoji: "🌿" },
-  Productivity:    { from: "#8b5cf6", to: "#6366f1", emoji: "⚡" },
-  Learning:        { from: "#f97316", to: "#f59e0b", emoji: "📚" },
-  "Mental Wellness": { from: "#ec4899", to: "#8b5cf6", emoji: "🧘" },
-  Lifestyle:       { from: "#14b8a6", to: "#0ea5e9", emoji: "✨" },
+  Fitness:           { from: "#3b82f6", to: "#6366f1" },
+  Health:            { from: "#22c55e", to: "#10b981" },
+  Productivity:      { from: "#8b5cf6", to: "#6366f1" },
+  Learning:          { from: "#f97316", to: "#f59e0b" },
+  "Mental Wellness": { from: "#ec4899", to: "#8b5cf6" },
+  Lifestyle:         { from: "#14b8a6", to: "#0ea5e9" },
 };
 
 export const HABIT_TEMPLATES: IHabitTemplate[] = [

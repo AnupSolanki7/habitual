@@ -10,11 +10,13 @@ import {
   Trash2,
   ExternalLink,
   Flame,
+  Trophy,
   Clock,
   Calendar,
   Check,
   Globe,
 } from "lucide-react";
+import { getCategoryIcon } from "@/constants/habitIcons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -30,17 +32,6 @@ import { cn } from "@/lib/utils";
 import type { HabitWithStats } from "@/types";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  Health: "🏥",
-  Fitness: "🏃",
-  Learning: "📚",
-  Work: "💼",
-  Mindfulness: "🧘",
-  Social: "👥",
-  Finance: "💰",
-  Other: "⭐",
-};
 
 const FREQ_LABEL: Record<string, string> = {
   daily: "Daily",
@@ -144,6 +135,8 @@ export function HabitCard({
 
   // ── Render ───────────────────────────────────────────────────────────────────
 
+  const CategoryIcon = getCategoryIcon(habit.category);
+
   return (
     <div
       className={cn(
@@ -167,10 +160,10 @@ export function HabitCard({
 
         {/* ── Row 1: Icon · Title · Tags · Menu ─────────────────────────── */}
         <div className="flex items-start gap-3">
-          {/* Category emoji bubble */}
+          {/* Category icon badge */}
           <div
             className={cn(
-              "h-11 w-11 shrink-0 rounded-2xl flex items-center justify-center text-xl shadow-sm transition-all duration-200",
+              "h-11 w-11 shrink-0 rounded-2xl flex items-center justify-center shadow-sm transition-all duration-200",
               isDone ? "opacity-50" : "group-hover:scale-105"
             )}
             style={{ backgroundColor: habit.color + "22" }}
@@ -182,7 +175,7 @@ export function HabitCard({
                 strokeWidth={2.5}
               />
             ) : (
-              <span>{CATEGORY_EMOJI[habit.category] ?? "⭐"}</span>
+              <CategoryIcon className="h-5 w-5" style={{ color: habit.color }} />
             )}
           </div>
 
@@ -221,8 +214,8 @@ export function HabitCard({
 
               {/* Due chip */}
               {habit.isDueToday && !isDone && (
-                <span className="inline-flex items-center rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
-                  ⏳ Due
+                <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                  <Clock className="h-2.5 w-2.5" /> Due
                 </span>
               )}
 
@@ -311,8 +304,9 @@ export function HabitCard({
           {/* Stat mini-pills */}
           <div className="flex gap-1.5 flex-1 min-w-0">
             <div className="flex flex-col items-center rounded-xl px-2.5 py-1.5 bg-muted/40 flex-1">
-              <span className="text-xs font-bold leading-none mb-0.5">
-                🔥 {habit.currentStreak}
+              <span className="inline-flex items-center gap-0.5 text-xs font-bold leading-none mb-0.5">
+                <Flame className="h-3 w-3 text-orange-500" />
+                {habit.currentStreak}
               </span>
               <span className="text-[9px] text-muted-foreground uppercase tracking-wide leading-none">
                 streak
@@ -327,8 +321,9 @@ export function HabitCard({
               </span>
             </div>
             <div className="flex flex-col items-center rounded-xl px-2.5 py-1.5 bg-muted/40 flex-1">
-              <span className="text-xs font-bold leading-none mb-0.5">
-                🏆 {habit.longestStreak}
+              <span className="inline-flex items-center gap-0.5 text-xs font-bold leading-none mb-0.5">
+                <Trophy className="h-3 w-3 text-yellow-500" />
+                {habit.longestStreak}
               </span>
               <span className="text-[9px] text-muted-foreground uppercase tracking-wide leading-none">
                 best

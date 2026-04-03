@@ -9,14 +9,20 @@ import {
   Users,
   Bell,
   Sparkles,
+  Flame,
+  Trophy,
+  type LucideIcon,
 } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { getDashboardData } from "@/actions/dashboard";
 import { getNotifications } from "@/actions/notifications";
 import { getFeedPosts } from "@/actions/posts";
 import { getSuggestedUsers, getPublicHabits } from "@/actions/social";
-import { getTodayString } from "@/lib/utils";
+import { getDailyQuote } from "@/constants/quotes";
 import { TodayHabits } from "@/components/dashboard/TodayHabits";
+import { DailyQuoteBanner } from "@/components/dashboard/DailyQuoteBanner";
+import { IdentitySection } from "@/components/dashboard/IdentitySection";
+import { TinyHabitCard } from "@/components/dashboard/TinyHabitCard";
 import { FeedPreview } from "@/components/social/FeedPreview";
 import { UserCard } from "@/components/social/UserCard";
 import { PublicHabitCard } from "@/components/explore/PublicHabitCard";
@@ -58,82 +64,84 @@ export default async function DashboardPage() {
   const publicHabits = publicHabitsResult.data?.habits ?? [];
   const unread = notifications.filter((n) => !n.read).length;
 
+  const dailyQuote = getDailyQuote();
+
   return (
     <div className="space-y-5 page-container">
 
-    {/* ─── Single-column sections (hero + habits): capped at 2xl ────── */}
-    <div className="max-w-4xl mx-auto w-full space-y-5">
+      {/* ── Single-column hero zone: capped at 4xl ────────────────────── */}
+      <div className="max-w-4xl mx-auto w-full space-y-4">
 
-      {/* ── Hero greeting ────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-lg shadow-blue-500/20">
-        {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-8 left-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+        {/* ── Hero greeting ──────────────────────────────────────────── */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-lg shadow-blue-500/20">
+          {/* Decorative blobs */}
+          <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-8 left-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
 
-        <div className="relative z-10 flex items-start justify-between gap-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-white/60 text-xs font-medium mb-0.5">
-              {format(new Date(), "EEEE, MMMM d")}
-            </p>
-            <h1 className="text-xl font-bold leading-tight">
-              {greeting}, {firstName} 👋
-            </h1>
-            <p className="mt-1 text-white/75 text-sm">
-              {dashboardData.completedToday === 0 && dashboardData.todayHabits.length === 0
-                ? "No habits scheduled today."
-                : dashboardData.completedToday === dashboardData.todayHabits.length && dashboardData.todayHabits.length > 0
-                ? "All habits done — amazing! 🎉"
-                : `${dashboardData.completedToday} of ${dashboardData.todayHabits.length} habits done`}
-            </p>
-          </div>
+          <div className="relative z-10 flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <p className="text-white/60 text-xs font-medium mb-0.5">
+                {format(new Date(), "EEEE, MMMM d")}
+              </p>
+              <h1 className="text-xl font-bold leading-tight">
+                {greeting}, {firstName}
+              </h1>
+              <p className="mt-1 text-white/75 text-sm">
+                {dashboardData.completedToday === 0 && dashboardData.todayHabits.length === 0
+                  ? "No habits scheduled today."
+                  : dashboardData.completedToday === dashboardData.todayHabits.length && dashboardData.todayHabits.length > 0
+                  ? "All habits done — amazing!"
+                  : `${dashboardData.completedToday} of ${dashboardData.todayHabits.length} habits done`}
+              </p>
+            </div>
 
-          {/* Progress ring */}
-          <div className="relative shrink-0 h-16 w-16">
-            <svg viewBox="0 0 60 60" className="-rotate-90 h-16 w-16">
-              <defs>
-                <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,1)" />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0.5)" />
-                </linearGradient>
-              </defs>
-              <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="5" />
-              <circle
-                cx="30" cy="30" r="24"
-                fill="none"
-                stroke="url(#ring-grad)"
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 24}`}
-                strokeDashoffset={`${2 * Math.PI * 24 * (1 - completionPct / 100)}`}
-                className="transition-all duration-700"
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-white">{completionPct}%</span>
+            {/* Progress ring */}
+            <div className="relative shrink-0 h-16 w-16">
+              <svg viewBox="0 0 60 60" className="-rotate-90 h-16 w-16">
+                <defs>
+                  <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(255,255,255,1)" />
+                    <stop offset="100%" stopColor="rgba(255,255,255,0.5)" />
+                  </linearGradient>
+                </defs>
+                <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="5" />
+                <circle
+                  cx="30" cy="30" r="24"
+                  fill="none"
+                  stroke="url(#ring-grad)"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeDasharray={`${2 * Math.PI * 24}`}
+                  strokeDashoffset={`${2 * Math.PI * 24 * (1 - completionPct / 100)}`}
+                  className="transition-all duration-700"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-bold text-white">{completionPct}%</span>
+              </div>
             </div>
           </div>
+
+          {/* Stats strip */}
+          <div className="relative z-10 mt-4 grid grid-cols-3 gap-2">
+            <StatPill icon={Flame}    value={dashboardData.overallCurrentStreak}  label="Streak" />
+            <StatPill icon={Trophy}   value={dashboardData.overallLongestStreak}  label="Best" />
+            <StatPill icon={TrendingUp} value={dashboardData.overallCompletionRate} label="Rate" unit="%" />
+          </div>
         </div>
 
-        {/* Stats strip */}
-        <div className="relative z-10 mt-4 grid grid-cols-3 gap-2">
-          <StatPill icon="🔥" value={dashboardData.overallCurrentStreak} label="Streak" />
-          <StatPill icon="🏆" value={dashboardData.overallLongestStreak} label="Best" />
-          <StatPill icon="📈" value={dashboardData.overallCompletionRate} label="Rate" unit="%" />
-        </div>
-      </div>
+        {/* ── Daily quote banner ─────────────────────────────────────── */}
+        <DailyQuoteBanner quote={dailyQuote} />
 
-      {/* ── Today's Habits (full-width blue section) ─────────────────── */}
-      <TodayHabits habits={dashboardData.todayHabits} userId={userId} />
+        {/* ── Today's Habits ─────────────────────────────────────────── */}
+        <TodayHabits habits={dashboardData.todayHabits} userId={userId} />
 
-    </div>{/* end narrow zone */}
+        {/* ── Identity section ───────────────────────────────────────── */}
+        <IdentitySection habits={dashboardData.todayHabits} />
 
-      {/* ── Social feed + sidebar ────────────────────────────────────── */}
-      {/*
-        Full-width two-column grid.
-        Feed column is flexible (min-w-0 prevents overflow bleed).
-        Sidebar column is fixed at 300px — enough for UserCard + FollowButton.
-        Grid activates at lg (1024px); below that everything stacks.
-      */}
+      </div>{/* end narrow zone */}
+
+      {/* ── Social feed + sidebar ──────────────────────────────────────── */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-5">
 
         {/* Social feed */}
@@ -154,6 +162,9 @@ export default async function DashboardPage() {
 
         {/* Sidebar */}
         <div className="space-y-4">
+
+          {/* Tiny habit card — always shown */}
+          <TinyHabitCard habits={dashboardData.todayHabits} />
 
           {/* Notifications */}
           {notifications.length > 0 && (
@@ -269,19 +280,19 @@ export default async function DashboardPage() {
 }
 
 function StatPill({
-  icon,
+  icon: Icon,
   value,
   label,
   unit = "",
 }: {
-  icon: string;
+  icon: LucideIcon;
   value: number;
   label: string;
   unit?: string;
 }) {
   return (
     <div className="flex flex-col items-center gap-0.5 rounded-2xl bg-white/15 py-2 px-1 backdrop-blur-sm">
-      <span className="text-base">{icon}</span>
+      <Icon className="h-4 w-4 text-white/80" />
       <span className="text-base font-bold text-white leading-tight">
         {value}{unit}
       </span>

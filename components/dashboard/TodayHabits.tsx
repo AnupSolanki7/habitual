@@ -2,20 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Plus, PartyPopper } from "lucide-react";
+import { ArrowRight, Plus, PartyPopper, Flame, Check } from "lucide-react";
 import { HabitLogButton } from "@/components/habits/HabitLogButton";
+import { getCategoryIcon } from "@/constants/habitIcons";
 import type { HabitWithStats } from "@/types";
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  Health: "🏥",
-  Fitness: "🏃",
-  Learning: "📚",
-  Work: "💼",
-  Mindfulness: "🧘",
-  Social: "👥",
-  Finance: "💰",
-  Other: "⭐",
-};
 
 interface TodayHabitsProps {
   habits: HabitWithStats[];
@@ -76,14 +66,16 @@ export function TodayHabits({ habits, userId }: TodayHabitsProps) {
         <div className="flex items-center gap-2 rounded-2xl bg-white/15 backdrop-blur-sm px-4 py-3 mb-3">
           <PartyPopper className="h-4 w-4 text-yellow-300 shrink-0" />
           <p className="text-sm font-semibold text-white">
-            All habits done for today! 🎉
+            All habits done for today!
           </p>
         </div>
       )}
 
       {/* Habit cards */}
       <div className="space-y-2.5">
-        {habits.map((habit) => (
+        {habits.map((habit) => {
+          const HabitIcon = getCategoryIcon(habit.category);
+          return (
           <div
             key={habit.id}
             className={
@@ -91,16 +83,20 @@ export function TodayHabits({ habits, userId }: TodayHabitsProps) {
             }
           >
             <div className="flex items-center gap-3 px-4 py-3.5">
-              {/* Category icon */}
+              {/* Category icon badge */}
               <div
-                className="h-10 w-10 rounded-2xl shrink-0 flex items-center justify-center text-lg"
+                className="h-10 w-10 rounded-2xl shrink-0 flex items-center justify-center"
                 style={{
                   backgroundColor: habit.isCompletedToday
                     ? "rgba(255,255,255,0.07)"
                     : habit.color + "33",
                 }}
               >
-                {CATEGORY_EMOJI[habit.category] ?? "⭐"}
+                {habit.isCompletedToday ? (
+                  <Check className="h-4 w-4 text-white/50" strokeWidth={2.5} />
+                ) : (
+                  <HabitIcon className="h-5 w-5" style={{ color: habit.color }} />
+                )}
               </div>
 
               {/* Info */}
@@ -116,8 +112,9 @@ export function TodayHabits({ habits, userId }: TodayHabitsProps) {
                 </p>
                 <div className="flex items-center gap-2 mt-0.5">
                   {habit.currentStreak > 0 && (
-                    <span className="text-xs text-orange-300 font-medium">
-                      🔥 {habit.currentStreak}d
+                    <span className="inline-flex items-center gap-0.5 text-xs text-orange-300 font-medium">
+                      <Flame className="h-3 w-3" />
+                      {habit.currentStreak}d
                     </span>
                   )}
                   <span className="text-xs text-white/50 capitalize">
@@ -134,7 +131,8 @@ export function TodayHabits({ habits, userId }: TodayHabitsProps) {
               />
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* View all */}
