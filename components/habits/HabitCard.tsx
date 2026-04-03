@@ -28,6 +28,7 @@ import {
 import { archiveHabit, deleteHabit } from "@/actions/habits";
 import { logHabit } from "@/actions/habitLogs";
 import { useToast } from "@/components/ui/use-toast";
+import { ConfirmDeleteDialog } from "@/components/ui/ConfirmDeleteDialog";
 import { cn } from "@/lib/utils";
 import type { HabitWithStats } from "@/types";
 
@@ -61,6 +62,7 @@ export function HabitCard({
   const [isPending, startTransition] = useTransition();
   const [localCompleted, setLocalCompleted] = useState(habit.isCompletedToday);
   const [localValue] = useState(habit.todayLog?.value ?? 0);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const isDone = localCompleted;
   const progress =
@@ -96,8 +98,8 @@ export function HabitCard({
     });
   }
 
-  function handleDelete() {
-    if (!confirm(`Delete "${habit.title}"? This cannot be undone.`)) return;
+  function handleDeleteConfirm() {
+    setDeleteDialogOpen(false);
     if (onDelete) {
       onDelete(habit.id);
       return;
@@ -262,7 +264,7 @@ export function HabitCard({
                 <Archive className="h-3.5 w-3.5" /> Archive
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={handleDelete}
+                onClick={() => setDeleteDialogOpen(true)}
                 className="gap-2 text-destructive focus:text-destructive"
               >
                 <Trash2 className="h-3.5 w-3.5" /> Delete
@@ -270,6 +272,15 @@ export function HabitCard({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
+        <ConfirmDeleteDialog
+          open={deleteDialogOpen}
+          onOpenChange={setDeleteDialogOpen}
+          title={`Delete "${habit.title}"?`}
+          description="This will permanently delete the habit and all its logs. This cannot be undone."
+          onConfirm={handleDeleteConfirm}
+          isPending={isPending}
+        />
 
         {/* ── Row 2: Progress bar (count / duration only) ────────────────── */}
         {habit.targetType !== "boolean" && (

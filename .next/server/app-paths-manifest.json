@@ -1,25 +1,6 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/auth/register/route": "app/api/auth/register/route.js",
-  "/api/follow/route": "app/api/follow/route.js",
-  "/api/upload/profile-image/route": "app/api/upload/profile-image/route.js",
-  "/api/users/[username]/route": "app/api/users/[username]/route.js",
-  "/api/settings/profile/route": "app/api/settings/profile/route.js",
-  "/u/[username]/page": "app/u/[username]/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/(auth)/register/page": "app/(auth)/register/page.js",
-  "/(marketing)/page": "app/(marketing)/page.js",
-  "/(app)/habits/[id]/edit/page": "app/(app)/habits/[id]/edit/page.js",
-  "/(app)/analytics/page": "app/(app)/analytics/page.js",
-  "/(app)/habits/page": "app/(app)/habits/page.js",
-  "/(app)/groups/page": "app/(app)/groups/page.js",
   "/(app)/dashboard/page": "app/(app)/dashboard/page.js",
-  "/(app)/explore/page": "app/(app)/explore/page.js",
-  "/(app)/habits/new/page": "app/(app)/habits/new/page.js",
-  "/(app)/challenges/page": "app/(app)/challenges/page.js",
-  "/(app)/settings/page": "app/(app)/settings/page.js",
-  "/(app)/habits/[id]/page": "app/(app)/habits/[id]/page.js",
-  "/(app)/social/page": "app/(app)/social/page.js",
-  "/(app)/notifications/page": "app/(app)/notifications/page.js"
+  "/(app)/habits/page": "app/(app)/habits/page.js"
 }

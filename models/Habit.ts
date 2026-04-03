@@ -58,6 +58,13 @@ const HabitSchema = new Schema<IHabitDocument>(
 );
 
 HabitSchema.index({ userId: 1, archived: 1 });
+// Prevent the same user from adopting the same public habit more than once.
+// sparse: true so the index only covers documents where copiedFromHabitId exists,
+// leaving regular (non-adopted) habits unaffected.
+HabitSchema.index(
+  { userId: 1, copiedFromHabitId: 1 },
+  { unique: true, sparse: true }
+);
 
 export default mongoose.models.Habit ||
   mongoose.model<IHabitDocument>("Habit", HabitSchema);

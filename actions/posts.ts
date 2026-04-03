@@ -508,10 +508,11 @@ export async function deleteComment(
 export async function adoptHabit(
   userId: string,
   sourceHabitId: string
-): Promise<ActionResult<{ habitId: string }>> {
+): Promise<ActionResult<{ habitId: string; alreadyAdopted?: boolean }>> {
   try {
     await connectDB();
 
+    // ── 1. Fetch source habit ─────────────────────────────────────────────────
     const source = await Habit.findOne({
       _id: sourceHabitId,
       visibility: "public",
@@ -523,6 +524,17 @@ export async function adoptHabit(
       return { error: "You cannot adopt your own habit." };
     }
 
+    // ── 2. Idempotency check — prevent duplicates before hitting the DB ───────
+    const existing = await Habit.findOne(
+      { userId, copiedFromHabitId: sourceHabitId },
+      { _id: 1 }
+    ).lean();
+
+    if (existing) {
+      return { data: { habitId: (existing as any)._id.toString(), alreadyAdopted: true } };
+    }
+
+    // ── 3. Create the adopted copy ────────────────────────────────────────────
     const newHabit = await Habit.create({
       userId,
       title: (source as any).title,
@@ -534,17 +546,15 @@ export async function adoptHabit(
       targetValue: (source as any).targetValue,
       frequencyType: (source as any).frequencyType,
       frequencyDays: (source as any).frequencyDays,
-      visibility: "private", // adopter's copy is private by default
+      visibility: "private",
       copiedFromHabitId: (source as any)._id,
       copiedFromUserId: (source as any).userId,
     });
 
-    // Increment adoption count on source
-    await Habit.findByIdAndUpdate(sourceHabitId, {
-      $inc: { adoptionCount: 1 },
-    });
+    // ── 4. Increment adoption count on source ─────────────────────────────────
+    await Habit.findByIdAndUpdate(sourceHabitId, { $inc: { adoptionCount: 1 } });
 
-    // Notify original creator
+    // ── 5. Notify original creator ────────────────────────────────────────────
     await Notification.create({
       userId: (source as any).userId,
       type: "habit_adopted",
@@ -558,6 +568,17 @@ export async function adoptHabit(
     revalidatePath("/explore");
     return { data: { habitId: newHabit._id.toString() } };
   } catch (err: any) {
+    // ── 6. Race-condition safety net: unique index violation (code 11000) ─────
+    // Two concurrent requests slipped through the pre-check simultaneously.
+    if (err.code === 11000) {
+      const existing = await Habit.findOne(
+        { userId, copiedFromHabitId: sourceHabitId },
+        { _id: 1 }
+      ).lean();
+      if (existing) {
+        return { data: { habitId: (existing as any)._id.toString(), alreadyAdopted: true } };
+      }
+    }
     console.error("[adoptHabit]", err);
     return { error: "Failed to adopt habit." };
   }

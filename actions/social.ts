@@ -476,10 +476,24 @@ export async function getPublicHabits(
       Habit.countDocuments(filter),
     ]);
 
+    // Build a set of source habit IDs that this viewer has already adopted.
+    // A single lean query is enough — we only need the copiedFromHabitId field.
+    const adoptedSourceIds = new Set<string>();
+    if (viewerUserId) {
+      const adoptedDocs = await Habit.find(
+        { userId: viewerUserId, copiedFromHabitId: { $exists: true, $ne: null } },
+        { copiedFromHabitId: 1 }
+      ).lean();
+      for (const doc of adoptedDocs as any[]) {
+        if (doc.copiedFromHabitId) adoptedSourceIds.add(doc.copiedFromHabitId.toString());
+      }
+    }
+
     const result = habits.map((h: any) => {
       const creator = h.userId as any;
+      const habitId = h._id.toString();
       return {
-        id: h._id.toString(),
+        id: habitId,
         userId: creator._id.toString(),
         title: h.title,
         description: h.description,
@@ -496,6 +510,8 @@ export async function getPublicHabits(
         adoptionCount: h.adoptionCount ?? 0,
         copiedFromHabitId: h.copiedFromHabitId?.toString(),
         copiedFromUserId: h.copiedFromUserId?.toString(),
+        // true when the viewer already has a private copy of this public habit
+        isAdoptedByCurrentUser: adoptedSourceIds.has(habitId),
         createdAt: h.createdAt,
         updatedAt: h.updatedAt,
         creator: {

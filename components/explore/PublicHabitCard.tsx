@@ -14,8 +14,8 @@ import type { IHabit, IUserPublic } from "@/types";
 interface PublicHabitCardProps {
   habit: IHabit & { creator: IUserPublic };
   currentUserId: string;
-  /** true if this habit was already adopted / owned by the viewer */
-  isOwned?: boolean;
+  /** Server-computed: true if the viewer already has a copy of this habit */
+  isAdoptedByCurrentUser?: boolean;
 }
 
 const CATEGORY_GRADIENT: Record<string, string> = {
@@ -29,29 +29,34 @@ const CATEGORY_GRADIENT: Record<string, string> = {
   Other:        "from-violet-400 to-indigo-500",
 };
 
-export function PublicHabitCard({ habit, currentUserId, isOwned = false }: PublicHabitCardProps) {
+export function PublicHabitCard({ habit, currentUserId}: PublicHabitCardProps) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
-  const [adopted, setAdopted] = useState(isOwned);
+  // Initialise from server-computed value so state survives page refresh
+  const [adopted, setAdopted] = useState(habit?.isAdoptedByCurrentUser);
   const [adoptionCount, setAdoptionCount] = useState(habit.adoptionCount);
 
   const gradient = CATEGORY_GRADIENT[habit.category] ?? CATEGORY_GRADIENT.Other;
   const isOwner = habit.userId === currentUserId;
 
   function handleAdopt() {
-    if (adopted || isOwner) return;
+    // Guard: already adopted or is their own habit or request in-flight
+    if (adopted || isOwner || isPending) return;
     startTransition(async () => {
       const result = await adoptHabit(currentUserId, habit.id);
       if (result.error) {
         toast({ variant: "destructive", title: "Error", description: result.error });
         return;
       }
+      // alreadyAdopted = server confirmed it was adopted before (race / stale UI)
+      if (!result.data?.alreadyAdopted) {
+        setAdoptionCount((c) => c + 1);
+        toast({
+          title: "Habit added!",
+          description: `"${habit.title}" has been added to your habits.`,
+        });
+      }
       setAdopted(true);
-      setAdoptionCount((c) => c + 1);
-      toast({
-        title: "Habit added!",
-        description: `"${habit.title}" has been added to your habits.`,
-      });
     });
   }
 
@@ -114,16 +119,16 @@ export function PublicHabitCard({ habit, currentUserId, isOwned = false }: Publi
               Your habit
             </Badge>
           ) : adopted ? (
-            <Badge className="gap-1 text-xs rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-0">
+            <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 cursor-default select-none">
               <CheckCircle2 className="h-3 w-3" />
               Added
-            </Badge>
+            </span>
           ) : (
             <Button
               size="sm"
               className="h-7 px-3 text-xs rounded-xl btn-gradient"
               onClick={handleAdopt}
-              disabled={isPending}
+              disabled={isPending || adopted}
             >
               {isPending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />

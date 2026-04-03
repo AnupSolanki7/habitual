@@ -57,7 +57,6 @@ export default function HabitsPage() {
   }
 
   function handleDelete(id: string) {
-    if (!confirm("Delete this habit and all its logs? This cannot be undone.")) return;
     startTransition(async () => {
       const result = await deleteHabit(userId, id);
       if (result.error) {

@@ -260,6 +260,7 @@ export function ExploreClient({
                   key={habit.id}
                   habit={habit}
                   currentUserId={currentUserId}
+                  isAdoptedByCurrentUser={(habit as any).isAdoptedByCurrentUser ?? false}
                 />
               ))}
             </div>

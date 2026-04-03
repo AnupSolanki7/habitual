@@ -74,6 +74,7 @@ export interface IHabit {
   copiedFromUserId?: string;
   createdAt: Date;
   updatedAt: Date;
+  isAdoptedByCurrentUser?: boolean; // server-computed property for public habits
 }
 
 export interface IHabitLog {
