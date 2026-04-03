@@ -17,13 +17,11 @@ interface IdentitySectionProps {
 
 export function IdentitySection({ habits }: IdentitySectionProps) {
   // Derive unique identity labels from today's habit categories
-  const identities = [
-    ...new Set(
-      habits
-        .map((h) => CATEGORY_TO_IDENTITY[h.category])
-        .filter(Boolean)
-    ),
-  ].slice(0, 4);
+  const seen = new Set<string>();
+  const identities = habits
+    .map((h) => CATEGORY_TO_IDENTITY[h.category])
+    .filter((label): label is string => Boolean(label) && !seen.has(label) && seen.add(label) !== undefined)
+    .slice(0, 4);
 
   // Fallback if no habits yet
   const displayIdentities =

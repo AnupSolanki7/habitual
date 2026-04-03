@@ -41,7 +41,10 @@ interface TinyHabitCardProps {
 }
 
 export function TinyHabitCard({ habits = [] }: TinyHabitCardProps) {
-  const derived = [...new Set(habits.map((h) => h.category))]
+  const seen = new Set<string>();
+  const derived = habits
+    .map((h) => h.category)
+    .filter((cat): cat is string => !seen.has(cat) && seen.add(cat) !== undefined)
     .slice(0, 3)
     .map((cat) => CATEGORY_TINY_HABITS[cat])
     .filter(Boolean) as TinyHabit[];
